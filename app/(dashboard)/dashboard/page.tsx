@@ -34,7 +34,7 @@ export default async function DashboardPage() {
       }),
       prisma.task.findMany({
         where: { assigneeId: userId, status: { not: "DONE" } },
-        include: { project: { select: { name: true, color: true } } },
+        include: { project: { select: { id: true, name: true, color: true } } },
         orderBy: [{ dueDate: "asc" }, { priority: "desc" }],
         take: 10,
       }),
