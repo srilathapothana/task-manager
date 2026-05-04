@@ -1,28 +1,36 @@
-import { auth } from "@/lib/auth";
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { getToken } from "next-auth/jwt";
 
-export default auth((req) => {
-  const isLoggedIn = !!req.auth;
+export async function middleware(req: NextRequest) {
+  const token = await getToken({
+    req,
+    secret: process.env.AUTH_SECRET,
+  });
+
   const { pathname } = req.nextUrl;
-  
-  const isAuthPage = pathname === "/login" || pathname === "/signup";
-  const isApiRoute = pathname.startsWith("/api");
-  const isPublic = pathname === "/";
 
-  if (isApiRoute) return NextResponse.next();
-
-  if (!isLoggedIn && !isAuthPage) {
-    const loginUrl = new URL("/login", req.url);
-    return NextResponse.redirect(loginUrl);
+  if (
+    pathname.startsWith("/api") ||
+    pathname.startsWith("/_next") ||
+    pathname.includes("favicon.ico")
+  ) {
+    return NextResponse.next();
   }
 
-  if (isLoggedIn && isAuthPage) {
-    const dashboardUrl = new URL("/dashboard", req.url);
-    return NextResponse.redirect(dashboardUrl);
+  if (pathname === "/login" || pathname === "/signup") {
+    if (token) {
+      return NextResponse.redirect(new URL("/dashboard", req.url));
+    }
+    return NextResponse.next();
+  }
+
+  if (!token) {
+    return NextResponse.redirect(new URL("/login", req.url));
   }
 
   return NextResponse.next();
-});
+}
 
 export const config = {
   matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
