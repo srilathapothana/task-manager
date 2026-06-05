@@ -3,7 +3,7 @@
 A full-stack team task management app built with **Next.js 14**, **PostgreSQL**, **Prisma**, **NextAuth**, and **Pusher**.
 
 ## 🚀 Live Demo
-> Add your Railway URL here after deployment
+> https://task-manager-production-ff6d.up.railway.app/
 
 ## 🛠️ Tech Stack
 
