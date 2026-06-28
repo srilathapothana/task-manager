@@ -5,6 +5,15 @@ A full-stack team task management app built with **Next.js 14**, **PostgreSQL**,
 ## 🚀 Live Demo
 > https://task-manager-production-ff6d.up.railway.app/
 
+## 🔑 Demo Credentials
+
+Use the following demo account to explore the application:
+
+Email: srilatha@example.com
+Password: Jaihanuman
+
+The demo account includes sample projects, tasks, team members, notifications, and dashboard data for evaluation.
+
 ## 🛠️ Tech Stack
 
 | Layer | Tech |
